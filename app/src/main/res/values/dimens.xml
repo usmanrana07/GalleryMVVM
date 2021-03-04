@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <dimen name="folder_name_title">13.4sp</dimen>
+    <dimen name="gallery_folder_list_border_radius">7dp</dimen>
+    <dimen name="gallery_folder_item_padding">9dp</dimen>
+    <dimen name="media_thumbnail_corner_radius">9dp</dimen>
+    <dimen name="gallery_folder_thumbnail_size">54dp</dimen>
+    <dimen name="folder_name">14.4sp</dimen>
+    <dimen name="small_text_size">11.3sp</dimen>
+    <dimen name="normal_horizontal_padding">18dp</dimen>
+    <dimen name="icon_btn_size">40dp</dimen>
+    <dimen name="progress_dialog_loading_size">60dp</dimen>
+
+
+</resources>

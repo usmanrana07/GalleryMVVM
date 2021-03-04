@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="viewModel"
+            type="com.usman.gallerydemo.ui.gallery.GalleryViewModel" />
+
+    </data>
+
+    <LinearLayout
+        android:id="@+id/galleryLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/background"
+        android:orientation="vertical"
+        android:paddingTop="10dp">
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/headerPanel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/tvTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10.1dp"
+                android:lineSpacingExtra="1.1sp"
+                android:onClick="@{()->viewModel.onChangeTypeClicked()}"
+                android:text="@{viewModel.selectedFolderName}"
+                android:textAllCaps="true"
+                android:textColor="@color/black"
+                android:textSize="@dimen/folder_name_title"
+                android:visibility="@{viewModel.hasGalleryPermission?View.VISIBLE:View.INVISIBLE}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="@string/camera_roll" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/ivSwitchFolderIcon"
+                android:layout_width="12dp"
+                android:layout_height="12dp"
+                android:layout_marginStart="3dp"
+                android:onClick="@{()->viewModel.onChangeTypeClicked()}"
+                android:src="@drawable/ic_small_down_arrow"
+                android:visibility="@{viewModel.hasGalleryPermission?View.VISIBLE:View.INVISIBLE}"
+                app:layout_constraintBottom_toBottomOf="@+id/tvTitle"
+                app:layout_constraintStart_toEndOf="@+id/tvTitle"
+                app:layout_constraintTop_toTopOf="@+id/tvTitle" />
+
+            <!-- <include
+                 android:id="@+id/permissionNote"
+                 layout="@layout/permission_gallery_helper"
+                 android:visibility="@{viewModel.hasGalleryPermission?View.GONE:View.VISIBLE,default=gone}"
+                 app:viewModel="@{viewModel}" />-->
+
+
+            <ViewSwitcher
+                android:id="@+id/viewSwitcher"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:paddingTop="11dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/ivSwitchFolderIcon">
+
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rvGallery"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/background"
+                    android:orientation="vertical"
+                    app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                    app:spanCount="@integer/gallery_columns" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rvFolders"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/bg_gallery_folders_list"
+                    android:orientation="vertical"
+                    android:paddingHorizontal="18dp"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+
+            </ViewSwitcher>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </LinearLayout>
+
+</layout>
