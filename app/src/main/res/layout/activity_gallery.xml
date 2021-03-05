@@ -8,6 +8,8 @@
 
         <import type="android.view.View" />
 
+        <import type="android.text.TextUtils"/>
+
         <variable
             name="viewModel"
             type="com.usman.gallerydemo.ui.gallery.GalleryViewModel" />
@@ -20,13 +22,15 @@
         android:layout_height="match_parent"
         android:background="@color/background"
         android:orientation="vertical"
-        android:paddingTop="10dp">
+        >
 
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/headerPanel"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="match_parent"
+            android:paddingTop="10dp"
+            >
 
             <TextView
                 android:id="@+id/tvTitle"
@@ -39,7 +43,6 @@
                 android:textAllCaps="true"
                 android:textColor="@color/black"
                 android:textSize="@dimen/folder_name_title"
-                android:visibility="@{viewModel.hasGalleryPermission?View.VISIBLE:View.INVISIBLE}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -51,18 +54,17 @@
                 android:layout_height="12dp"
                 android:layout_marginStart="3dp"
                 android:onClick="@{()->viewModel.onChangeTypeClicked()}"
-                android:src="@drawable/ic_small_down_arrow"
-                android:visibility="@{viewModel.hasGalleryPermission?View.VISIBLE:View.INVISIBLE}"
+                app:srcCompat="@drawable/ic_small_down_arrow"
                 app:layout_constraintBottom_toBottomOf="@+id/tvTitle"
                 app:layout_constraintStart_toEndOf="@+id/tvTitle"
                 app:layout_constraintTop_toTopOf="@+id/tvTitle" />
 
-            <!-- <include
-                 android:id="@+id/permissionNote"
-                 layout="@layout/permission_gallery_helper"
-                 android:visibility="@{viewModel.hasGalleryPermission?View.GONE:View.VISIBLE,default=gone}"
-                 app:viewModel="@{viewModel}" />-->
-
+            <androidx.constraintlayout.widget.Group
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:constraint_referenced_ids="tvTitle,ivSwitchFolderIcon"
+                android:visibility="@{(TextUtils.isEmpty(viewModel.selectedFolderName) || !viewModel.hasGalleryPermission)?View.INVISIBLE:View.VISIBLE}"
+                />
 
             <ViewSwitcher
                 android:id="@+id/viewSwitcher"
@@ -92,6 +94,13 @@
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
             </ViewSwitcher>
+
+            <include
+                android:id="@+id/permissionNote"
+                layout="@layout/layout_permission_gallery"
+                app:viewModel="@{viewModel}"
+                android:visibility="@{viewModel.hasGalleryPermission?View.GONE:View.VISIBLE,default=gone}"
+                />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </LinearLayout>
 

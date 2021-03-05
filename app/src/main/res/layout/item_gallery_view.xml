@@ -35,7 +35,7 @@
             android:alpha=".6"
             android:background="@drawable/ic_filled_circle"
             android:padding="5dp"
-            android:visibility="@{viewModel.isVideo?View.VISIBLE:View.GONE}"
+            android:visibility="@{viewModel.isVideo?View.VISIBLE:View.GONE,default=gone}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

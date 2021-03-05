@@ -7,4 +7,7 @@
     <string name="message_open_permissions_setting">Please enable permissions from the settings.</string>
     <string name="settings">Settings</string>
     <string name="cancel">Cancel</string>
+    <string name="gallery_permission">Gallery Permission</string>
+    <string name="message_allow_gallery_permission">This lets you share photos from your library and save photos to your Camera Roll.</string>
+    <string name="allow">Allow</string>
 </resources>

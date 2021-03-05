@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_pressed="true">
+        <shape>
+            <solid android:color="@color/teal_200" />
+            <corners android:radius="8dp" />
+            <stroke android:width="2.3dp" android:color="@color/teal_200" />
+        </shape>
+    </item> <!-- pressed -->
+    <item>
+        <shape>
+            <solid android:color="@android:color/transparent" />
+            <corners android:radius="8dp" />
+            <stroke android:width="2.3dp" android:color="@color/teal_200" />
+        </shape>
+    </item> <!-- default -->
+</selector>

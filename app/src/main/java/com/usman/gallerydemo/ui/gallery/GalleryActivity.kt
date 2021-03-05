@@ -143,13 +143,11 @@ class GalleryActivity :
     override fun hasStoragePermission(): Boolean {
         return PermissionUtils.hasSelfPermissions(
             context,
-            Manifest.permission.WRITE_EXTERNAL_STORAGE,
             Manifest.permission.READ_EXTERNAL_STORAGE
         )
     }
 
     @OnPermissionDenied(
-        Manifest.permission.WRITE_EXTERNAL_STORAGE,
         Manifest.permission.READ_EXTERNAL_STORAGE
     )
     fun onStoragePermissionDenied() {
@@ -158,7 +156,6 @@ class GalleryActivity :
 
 
     @OnNeverAskAgain(
-        Manifest.permission.WRITE_EXTERNAL_STORAGE,
         Manifest.permission.READ_EXTERNAL_STORAGE
     )
     fun onStoragePermissionNeverAskAgain() {
@@ -167,7 +164,6 @@ class GalleryActivity :
     }
 
     @OnShowRationale(
-        Manifest.permission.WRITE_EXTERNAL_STORAGE,
         Manifest.permission.READ_EXTERNAL_STORAGE
     )
     fun showRationaleForStorage(request: PermissionRequest) {
