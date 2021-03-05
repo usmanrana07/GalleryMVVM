@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+
+        <import type="com.usman.gallerydemo.utils.GalleryMode" />
+
+        <variable
+            name="viewModel"
+            type="com.usman.gallerydemo.ui.dashboard.DashBoardViewModel" />
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="@dimen/dashboard_padding"
+        android:background="@color/teal_200"
+        >
+
+
+        <Button
+            android:id="@+id/btnImages"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="@{()->viewModel.onOptionClicked(GalleryMode.GALLERY_IMAGE)}"
+            android:text="@string/images_only"
+            android:background="@color/white"
+            app:layout_constraintBottom_toTopOf="@+id/btnVideos"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_chainStyle="packed" />
+
+        <Button
+            android:id="@+id/btnVideos"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="@dimen/dashboard_buttons_margin"
+            android:onClick="@{()->viewModel.onOptionClicked(GalleryMode.GALLERY_VIDEO)}"
+            android:text="@string/videos_only"
+            app:layout_constraintBottom_toTopOf="@+id/btnBoth"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/btnImages" />
+
+        <Button
+            android:id="@+id/btnBoth"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="@{()->viewModel.onOptionClicked(GalleryMode.GALLERY_IMAGE_AND_VIDEOS)}"
+            android:text="@string/both"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/btnVideos" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>
