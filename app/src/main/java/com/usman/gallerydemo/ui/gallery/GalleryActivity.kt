@@ -57,7 +57,6 @@ class GalleryActivity :
     }
 
     @NeedsPermission(
-        Manifest.permission.WRITE_EXTERNAL_STORAGE,
         Manifest.permission.READ_EXTERNAL_STORAGE
     )
     fun requestGalleryData() {
@@ -80,9 +79,7 @@ class GalleryActivity :
                 }
                 progressDialog?.show()
             }
-
         })
-
     }
 
     private fun setGalleryFoldersAdapter() {
@@ -150,25 +147,19 @@ class GalleryActivity :
         )
     }
 
-    @OnPermissionDenied(
-        Manifest.permission.READ_EXTERNAL_STORAGE
-    )
+    @OnPermissionDenied(Manifest.permission.READ_EXTERNAL_STORAGE)
     fun onStoragePermissionDenied() {
         viewModel.hasGalleryPermission.value = false
     }
 
 
-    @OnNeverAskAgain(
-        Manifest.permission.READ_EXTERNAL_STORAGE
-    )
+    @OnNeverAskAgain(Manifest.permission.READ_EXTERNAL_STORAGE)
     fun onStoragePermissionNeverAskAgain() {
         viewModel.hasGalleryPermission.value = false
         showPermissionSettingsConfirmationDialog()
     }
 
-    @OnShowRationale(
-        Manifest.permission.READ_EXTERNAL_STORAGE
-    )
+    @OnShowRationale(Manifest.permission.READ_EXTERNAL_STORAGE)
     fun showRationaleForStorage(request: PermissionRequest) {
         request.proceed()
     }
