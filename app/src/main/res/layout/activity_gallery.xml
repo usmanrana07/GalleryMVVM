@@ -8,7 +8,7 @@
 
         <import type="android.view.View" />
 
-        <import type="android.text.TextUtils"/>
+        <import type="android.text.TextUtils" />
 
         <variable
             name="viewModel"
@@ -21,16 +21,14 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/background"
-        android:orientation="vertical"
-        >
+        android:orientation="vertical">
 
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/headerPanel"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:paddingTop="10dp"
-            >
+            android:paddingTop="10dp">
 
             <TextView
                 android:id="@+id/tvTitle"
@@ -50,27 +48,26 @@
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/ivSwitchFolderIcon"
-                android:layout_width="12dp"
-                android:layout_height="12dp"
-                android:layout_marginStart="3dp"
+                android:layout_width="@dimen/folder_name_drop_down_icon"
+                android:layout_height="@dimen/folder_name_drop_down_icon"
+                android:layout_marginStart="@dimen/folder_name_drop_down_icon_margin_start"
                 android:onClick="@{()->viewModel.onChangeTypeClicked()}"
-                app:srcCompat="@drawable/ic_small_down_arrow"
                 app:layout_constraintBottom_toBottomOf="@+id/tvTitle"
                 app:layout_constraintStart_toEndOf="@+id/tvTitle"
-                app:layout_constraintTop_toTopOf="@+id/tvTitle" />
+                app:layout_constraintTop_toTopOf="@+id/tvTitle"
+                app:srcCompat="@drawable/ic_small_down_arrow" />
 
             <androidx.constraintlayout.widget.Group
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:constraint_referenced_ids="tvTitle,ivSwitchFolderIcon"
                 android:visibility="@{(TextUtils.isEmpty(viewModel.selectedFolderName) || !viewModel.hasGalleryPermission)?View.INVISIBLE:View.VISIBLE}"
-                />
+                app:constraint_referenced_ids="tvTitle,ivSwitchFolderIcon" />
 
             <ViewSwitcher
                 android:id="@+id/viewSwitcher"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:paddingTop="11dp"
+                android:paddingTop="@dimen/gallery_view_switcher_padding_top"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/ivSwitchFolderIcon">
 
@@ -90,7 +87,7 @@
                     android:layout_height="match_parent"
                     android:background="@drawable/bg_gallery_folders_list"
                     android:orientation="vertical"
-                    android:paddingHorizontal="18dp"
+                    android:paddingHorizontal="@dimen/folders_horizontal_padding"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
             </ViewSwitcher>
@@ -98,9 +95,8 @@
             <include
                 android:id="@+id/permissionNote"
                 layout="@layout/layout_permission_gallery"
-                app:viewModel="@{viewModel}"
                 android:visibility="@{viewModel.hasGalleryPermission?View.GONE:View.VISIBLE,default=gone}"
-                />
+                app:viewModel="@{viewModel}" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </LinearLayout>
 

@@ -26,9 +26,9 @@ class GalleryFoldersAdapter @Inject constructor(val context: FragmentActivity) :
     override fun getItemViewType(position: Int): Int {
         return when (foldersList.size) {
             0 -> {
-                VIEW_TYPE_EMPTY
+                viewTypeEmpty
             }
-            else -> VIEW_TYPE_NORMAL
+            else -> viewTypeNormal
         }
     }
 

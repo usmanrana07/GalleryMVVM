@@ -1,7 +1,6 @@
 package com.usman.gallerydemo.ui.base
 
 import android.content.Context
-import android.content.Intent
 import android.os.Bundle
 import androidx.annotation.LayoutRes
 import androidx.appcompat.app.AppCompatActivity
@@ -20,12 +19,6 @@ abstract class BaseActivity<VM : ViewModel, DB : ViewDataBinding>(
     protected abstract val viewModel: VM
 
     protected abstract fun getBindingVariable(): Int
-
-    companion object {
-        fun <T> newIntent(context: Context, activityName: Class<T>): Intent {
-            return Intent(context, activityName)
-        }
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

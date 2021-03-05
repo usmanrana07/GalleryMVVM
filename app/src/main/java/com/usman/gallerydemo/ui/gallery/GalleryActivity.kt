@@ -73,9 +73,12 @@ class GalleryActivity :
 
     private fun addLoadingStateObserver() {
         viewModel.isLoading.observe(this, { loading ->
-            progressDialog?.dismiss()
+            progressDialog?.takeIf { it.isShowing }?.dismiss()
             if (loading) {
-                progressDialog = ProgressDialog.progressDialog(context, true)
+                if (progressDialog == null) {
+                    progressDialog = ProgressDialog.progressDialog(context, true)
+                }
+                progressDialog?.show()
             }
 
         })
@@ -180,4 +183,10 @@ class GalleryActivity :
         onRequestPermissionsResult(requestCode, grantResults)
     }
 
+
+    override fun onDestroy() {
+        super.onDestroy()
+        progressDialog?.dismiss()
+        progressDialog = null
+    }
 }

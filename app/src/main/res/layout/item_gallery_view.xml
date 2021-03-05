@@ -34,7 +34,7 @@
             android:layout_height="@dimen/icon_btn_size"
             android:alpha=".6"
             android:background="@drawable/ic_filled_circle"
-            android:padding="5dp"
+            android:padding="@dimen/gallery_video_icon_padding"
             android:visibility="@{viewModel.isVideo?View.VISIBLE:View.GONE,default=gone}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

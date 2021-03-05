@@ -14,7 +14,9 @@
         android:supportsRtl="true"
         android:name=".GalleryDemoApp"
         android:theme="@style/Theme.GalleryDemo">
-        <activity android:name=".ui.splash.SplashActivity">
+        <activity android:name=".ui.splash.SplashActivity"
+            android:theme="@style/FullScreenTheme"
+            >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
