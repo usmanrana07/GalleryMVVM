@@ -1,7 +1,9 @@
 package com.usman.gallerydemo.ui.dashboard
 
+import com.usman.gallerydemo.utils.GalleryModes
+
 interface DashBoardNavigator {
 
-    fun openGallery(mode: Int)
+    fun openGallery(@GalleryModes mode: Int)
 
 }

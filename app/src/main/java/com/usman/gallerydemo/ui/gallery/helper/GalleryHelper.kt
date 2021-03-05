@@ -4,16 +4,15 @@ import android.content.Context
 import android.database.Cursor
 import android.graphics.BitmapFactory
 import android.net.Uri
-import android.os.Build
 import android.provider.MediaStore
 import android.util.SparseArray
-import androidx.annotation.RequiresApi
 import com.usman.gallerydemo.data.local.models.MediaFolder
 import com.usman.gallerydemo.data.local.models.MediaItem
 import com.usman.gallerydemo.utils.AppLogger
 import com.usman.gallerydemo.utils.GalleryMode.GALLERY_IMAGE
 import com.usman.gallerydemo.utils.GalleryMode.GALLERY_IMAGE_AND_VIDEOS
 import com.usman.gallerydemo.utils.GalleryMode.GALLERY_VIDEO
+import com.usman.gallerydemo.utils.GalleryModes
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
@@ -42,7 +41,7 @@ class GalleryHelper(private val context: Context) {
         }
     }
 
-    private fun getSelectionQuery(galleryMode: Int): String {
+    private fun getSelectionQuery(@GalleryModes galleryMode: Int): String {
         return when (galleryMode) {
             GALLERY_IMAGE_AND_VIDEOS -> StringBuilder().append(MediaStore.Files.FileColumns.MEDIA_TYPE)
                 .append(" IN(")
@@ -62,9 +61,8 @@ class GalleryHelper(private val context: Context) {
         }
     }
 
-//    @RequiresApi(Build.VERSION_CODES.Q)
     suspend fun loadGalleryFolders(
-        galleryMode: Int,
+        @GalleryModes galleryMode: Int,
         grandFolderName: String,
     ): SparseArray<MediaFolder> =
         withContext(Dispatchers.IO) {

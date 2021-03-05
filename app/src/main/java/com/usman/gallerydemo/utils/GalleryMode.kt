@@ -1,5 +1,6 @@
 package com.usman.gallerydemo.utils
 
+@GalleryModes
 object GalleryMode {
 
     const val GALLERY_IMAGE = 0
