@@ -23,6 +23,7 @@
     <dimen name="gallery_permissions_allow_text_size">15.8sp</dimen>
     <dimen name="gallery_permissions_inner_views_margin">19.1dp</dimen>
     <dimen name="gallery_permissions_desc_padding">20dp</dimen>
+    <dimen name="gallery_back_icon_margin">10dp</dimen>
     <dimen name="progress_dialog_loading_size">60dp</dimen>
     <dimen name="progress_dialog_padding">21dp</dimen>
     <dimen name="dashboard_padding">30dp</dimen>

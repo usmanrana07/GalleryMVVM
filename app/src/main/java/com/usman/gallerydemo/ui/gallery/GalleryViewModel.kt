@@ -87,6 +87,9 @@ class GalleryViewModel @Inject constructor(
 
     }
 
+    fun onBackClicked() {
+        getNavigator()?.close()
+    }
     fun onChangeTypeClicked() {
         getNavigator()?.switchGalleryMode()
     }

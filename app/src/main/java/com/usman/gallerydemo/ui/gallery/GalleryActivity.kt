@@ -143,6 +143,10 @@ class GalleryActivity :
         binding.viewSwitcher.showNext()
     }
 
+    override fun close() {
+        onBackPressed()
+    }
+
 
     override fun hasStoragePermission(): Boolean {
         return PermissionUtils.hasSelfPermissions(

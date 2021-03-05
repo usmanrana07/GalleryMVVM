@@ -12,4 +12,6 @@ interface GalleryNavigator {
 
     fun switchGalleryMode()
 
+    fun close()
+
 }

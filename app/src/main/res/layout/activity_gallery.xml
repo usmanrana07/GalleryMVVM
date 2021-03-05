@@ -16,88 +16,88 @@
 
     </data>
 
-    <LinearLayout
-        android:id="@+id/galleryLayout"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/bodyLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/background"
-        android:orientation="vertical">
+        android:background="@color/background">
 
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/ivBack"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/gallery_back_icon_margin"
+            android:onClick="@{()->viewModel.onBackClicked()}"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_back" />
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/headerPanel"
+        <TextView
+            android:id="@+id/tvTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="@{()->viewModel.onChangeTypeClicked()}"
+            android:text="@{viewModel.selectedFolderName}"
+            android:textAllCaps="true"
+            android:textColor="@color/black"
+            android:textSize="@dimen/folder_name_title"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/ivBack"
+            app:layout_constraintBottom_toBottomOf="@+id/ivBack"
+            tools:text="@string/camera_roll" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/ivSwitchFolderIcon"
+            android:layout_width="@dimen/folder_name_drop_down_icon"
+            android:layout_height="@dimen/folder_name_drop_down_icon"
+            android:layout_marginStart="@dimen/folder_name_drop_down_icon_margin_start"
+            android:onClick="@{()->viewModel.onChangeTypeClicked()}"
+            app:layout_constraintBottom_toBottomOf="@+id/tvTitle"
+            app:layout_constraintStart_toEndOf="@+id/tvTitle"
+            app:layout_constraintTop_toTopOf="@+id/tvTitle"
+            app:srcCompat="@drawable/ic_small_down_arrow" />
+
+        <androidx.constraintlayout.widget.Group
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="@{(TextUtils.isEmpty(viewModel.selectedFolderName) || !viewModel.hasGalleryPermission)?View.INVISIBLE:View.VISIBLE}"
+            app:constraint_referenced_ids="tvTitle,ivSwitchFolderIcon" />
+
+        <ViewSwitcher
+            android:id="@+id/viewSwitcher"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:paddingTop="10dp">
+            android:layout_height="0dp"
+            android:paddingTop="@dimen/gallery_view_switcher_padding_top"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/ivBack">
 
-            <TextView
-                android:id="@+id/tvTitle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10.1dp"
-                android:lineSpacingExtra="1.1sp"
-                android:onClick="@{()->viewModel.onChangeTypeClicked()}"
-                android:text="@{viewModel.selectedFolderName}"
-                android:textAllCaps="true"
-                android:textColor="@color/black"
-                android:textSize="@dimen/folder_name_title"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:text="@string/camera_roll" />
 
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/ivSwitchFolderIcon"
-                android:layout_width="@dimen/folder_name_drop_down_icon"
-                android:layout_height="@dimen/folder_name_drop_down_icon"
-                android:layout_marginStart="@dimen/folder_name_drop_down_icon_margin_start"
-                android:onClick="@{()->viewModel.onChangeTypeClicked()}"
-                app:layout_constraintBottom_toBottomOf="@+id/tvTitle"
-                app:layout_constraintStart_toEndOf="@+id/tvTitle"
-                app:layout_constraintTop_toTopOf="@+id/tvTitle"
-                app:srcCompat="@drawable/ic_small_down_arrow" />
-
-            <androidx.constraintlayout.widget.Group
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:visibility="@{(TextUtils.isEmpty(viewModel.selectedFolderName) || !viewModel.hasGalleryPermission)?View.INVISIBLE:View.VISIBLE}"
-                app:constraint_referenced_ids="tvTitle,ivSwitchFolderIcon" />
-
-            <ViewSwitcher
-                android:id="@+id/viewSwitcher"
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvGallery"
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:paddingTop="@dimen/gallery_view_switcher_padding_top"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/ivSwitchFolderIcon">
+                android:layout_height="match_parent"
+                android:background="@color/background"
+                android:orientation="vertical"
+                app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                app:spanCount="@integer/gallery_columns" />
 
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvFolders"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/bg_gallery_folders_list"
+                android:orientation="vertical"
+                android:paddingHorizontal="@dimen/folders_horizontal_padding"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/rvGallery"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="@color/background"
-                    android:orientation="vertical"
-                    app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-                    app:spanCount="@integer/gallery_columns" />
+        </ViewSwitcher>
 
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/rvFolders"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="@drawable/bg_gallery_folders_list"
-                    android:orientation="vertical"
-                    android:paddingHorizontal="@dimen/folders_horizontal_padding"
-                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
-
-            </ViewSwitcher>
-
-            <include
-                android:id="@+id/permissionNote"
-                layout="@layout/layout_permission_gallery"
-                android:visibility="@{viewModel.hasGalleryPermission?View.GONE:View.VISIBLE,default=gone}"
-                app:viewModel="@{viewModel}" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
-    </LinearLayout>
+        <include
+            android:id="@+id/permissionNote"
+            layout="@layout/layout_permission_gallery"
+            android:visibility="@{viewModel.hasGalleryPermission?View.GONE:View.VISIBLE,default=gone}"
+            app:viewModel="@{viewModel}" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </layout>
