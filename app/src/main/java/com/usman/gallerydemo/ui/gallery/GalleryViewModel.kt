@@ -8,7 +8,6 @@ import com.usman.gallerydemo.data.DataManager
 import com.usman.gallerydemo.data.local.models.MediaFolder
 import com.usman.gallerydemo.data.local.models.MediaItem
 import com.usman.gallerydemo.ui.base.BaseViewModel
-import com.usman.gallerydemo.ui.gallery.helper.GalleryHelper
 import com.usman.gallerydemo.utils.AppLogger
 import com.usman.gallerydemo.utils.CommonUtils
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -58,7 +57,7 @@ class GalleryViewModel @Inject constructor(
     }
 
     fun loadGalleryMedia(
-        galleryMode: Int = GalleryHelper.GALLERY_IMAGE_AND_VIDEOS,
+        galleryMode: Int,
         grandFolderName: String = dataManager.getResourceManager().getString(
             R.string.camera_roll
         ),

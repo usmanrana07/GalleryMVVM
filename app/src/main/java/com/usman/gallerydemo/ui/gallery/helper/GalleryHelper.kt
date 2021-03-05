@@ -4,12 +4,16 @@ import android.content.Context
 import android.database.Cursor
 import android.graphics.BitmapFactory
 import android.net.Uri
+import android.os.Build
 import android.provider.MediaStore
 import android.util.SparseArray
-import androidx.exifinterface.media.ExifInterface
+import androidx.annotation.RequiresApi
 import com.usman.gallerydemo.data.local.models.MediaFolder
 import com.usman.gallerydemo.data.local.models.MediaItem
 import com.usman.gallerydemo.utils.AppLogger
+import com.usman.gallerydemo.utils.GalleryMode.GALLERY_IMAGE
+import com.usman.gallerydemo.utils.GalleryMode.GALLERY_IMAGE_AND_VIDEOS
+import com.usman.gallerydemo.utils.GalleryMode.GALLERY_VIDEO
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
@@ -34,20 +38,31 @@ class GalleryHelper(private val context: Context) {
             if (media.width <= 0) media.width = options.outWidth
             if (media.height <= 0) media.height = options.outHeight
             if (media.mimeType.isNullOrEmpty()) media.mimeType = options.outMimeType
-            val exif = ExifInterface(media.path)
-            val orientation = exif.getAttributeInt(
-                ExifInterface.TAG_ORIENTATION,
-                ExifInterface.ORIENTATION_NORMAL
-            )
-            when (orientation) {
-                ExifInterface.ORIENTATION_ROTATE_90 -> media.orientation = 90
-                ExifInterface.ORIENTATION_ROTATE_180 -> media.orientation = 180
-                ExifInterface.ORIENTATION_ROTATE_270 -> media.orientation = 270
-            }
         } catch (ignore: Exception) {
         }
     }
 
+    private fun getSelectionQuery(galleryMode: Int): String {
+        return when (galleryMode) {
+            GALLERY_IMAGE_AND_VIDEOS -> StringBuilder().append(MediaStore.Files.FileColumns.MEDIA_TYPE)
+                .append(" IN(")
+                .append(MediaStore.Files.FileColumns.MEDIA_TYPE_IMAGE)
+                .append(",")
+                .append(MediaStore.Files.FileColumns.MEDIA_TYPE_VIDEO)
+                .append(")").toString()
+            GALLERY_VIDEO -> StringBuilder().append(MediaStore.Files.FileColumns.MEDIA_TYPE)
+                .append("=")
+                .append(MediaStore.Files.FileColumns.MEDIA_TYPE_VIDEO).toString()
+            GALLERY_IMAGE ->
+                StringBuilder().append(MediaStore.Files.FileColumns.MEDIA_TYPE).append("=")
+                    .append(MediaStore.Files.FileColumns.MEDIA_TYPE_IMAGE).toString()
+            else -> StringBuilder().append(MediaStore.Files.FileColumns.MEDIA_TYPE)
+                .append("=")
+                .append(MediaStore.Files.FileColumns.MEDIA_TYPE_IMAGE).toString()
+        }
+    }
+
+//    @RequiresApi(Build.VERSION_CODES.Q)
     suspend fun loadGalleryFolders(
         galleryMode: Int,
         grandFolderName: String,
@@ -59,23 +74,7 @@ class GalleryHelper(private val context: Context) {
                 val cursor: Cursor?
                 // Return only video or image metadata.
                 val uri: Uri = MediaStore.Files.getContentUri("external")
-                val selection: String = when (galleryMode) {
-                    GALLERY_IMAGE_AND_VIDEOS -> StringBuilder().append(MediaStore.Files.FileColumns.MEDIA_TYPE)
-                        .append(" IN(")
-                        .append(MediaStore.Files.FileColumns.MEDIA_TYPE_IMAGE)
-                        .append(",")
-                        .append(MediaStore.Files.FileColumns.MEDIA_TYPE_VIDEO)
-                        .append(")").toString()
-                    GALLERY_VIDEO -> StringBuilder().append(MediaStore.Files.FileColumns.MEDIA_TYPE)
-                        .append("=")
-                        .append(MediaStore.Files.FileColumns.MEDIA_TYPE_VIDEO).toString()
-                    GALLERY_IMAGE ->
-                        StringBuilder().append(MediaStore.Files.FileColumns.MEDIA_TYPE).append("=")
-                            .append(MediaStore.Files.FileColumns.MEDIA_TYPE_IMAGE).toString()
-                    else -> StringBuilder().append(MediaStore.Files.FileColumns.MEDIA_TYPE)
-                        .append("=")
-                        .append(MediaStore.Files.FileColumns.MEDIA_TYPE_IMAGE).toString()
-                }
+                val selection: String = getSelectionQuery(galleryMode)
                 val projection = arrayOf(
                     MediaStore.MediaColumns._ID,
                     MediaStore.MediaColumns.TITLE,
@@ -84,8 +83,7 @@ class GalleryHelper(private val context: Context) {
                     MediaStore.MediaColumns.HEIGHT,
                     MediaStore.MediaColumns.SIZE,
                     MediaStore.MediaColumns.BUCKET_ID,
-                    MediaStore.MediaColumns.BUCKET_DISPLAY_NAME,
-                    MediaStore.MediaColumns.ORIENTATION,
+                    MediaStore.MediaColumns.BUCKET_DISPLAY_NAME
                 )
                 val orderBy = MediaStore.MediaColumns.DATE_TAKEN
                 cursor = context.contentResolver?.query(
@@ -95,10 +93,9 @@ class GalleryHelper(private val context: Context) {
                     null,
                     "$orderBy DESC"
                 )
-                var grandFolder: MediaFolder? = null
                 // to show this folder at top we need to assign it lowest value
                 // as in gallery some folders have bucketId in -ve already
-                grandFolder = MediaFolder(Int.MIN_VALUE, title = grandFolderName)
+                val grandFolder = MediaFolder(Int.MIN_VALUE, title = grandFolderName)
                 mFoldersList.put(grandFolder.id, grandFolder)
                 cursor?.let {
                     while (cursor.moveToNext()) {
@@ -144,17 +141,10 @@ class GalleryHelper(private val context: Context) {
                     MediaStore.Files.getContentUri("external"),
                     cursor.getLong(cursor.getColumnIndex(MediaStore.Images.Media._ID)).toString()
                 ).toString(),
-                size = it.getLong(it.getColumnIndex(MediaStore.Images.Media.SIZE)),
-                orientation = it.getInt(it.getColumnIndex(MediaStore.Images.Media.ORIENTATION))
+                size = it.getLong(it.getColumnIndex(MediaStore.Images.Media.SIZE))
             ).apply {
                 mimeType = it.getString(it.getColumnIndex(MediaStore.Images.Media.MIME_TYPE))
             }
         } ?: run { null }
-    }
-
-    companion object {
-        const val GALLERY_IMAGE = 0
-        const val GALLERY_VIDEO = 1
-        const val GALLERY_IMAGE_AND_VIDEOS = 2
     }
 }

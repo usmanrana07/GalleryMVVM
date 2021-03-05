@@ -25,6 +25,8 @@
     <dimen name="gallery_permissions_desc_padding">20dp</dimen>
     <dimen name="progress_dialog_loading_size">60dp</dimen>
     <dimen name="progress_dialog_padding">21dp</dimen>
+    <dimen name="dashboard_padding">30dp</dimen>
+    <dimen name="dashboard_buttons_margin">20dp</dimen>
 
 
 </resources>

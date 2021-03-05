@@ -13,9 +13,7 @@ import com.usman.gallerydemo.ui.base.BaseActivity
 import com.usman.gallerydemo.ui.gallery.adapter.folders.GalleryFoldersAdapter
 import com.usman.gallerydemo.ui.gallery.adapter.media.GalleryAdapter
 import com.usman.gallerydemo.ui.gallery.helper.GalleryHelper
-import com.usman.gallerydemo.utils.AppLogger
-import com.usman.gallerydemo.utils.ProgressDialog
-import com.usman.gallerydemo.utils.showPermissionSettingsConfirmationDialog
+import com.usman.gallerydemo.utils.*
 import dagger.hilt.android.AndroidEntryPoint
 import permissions.dispatcher.*
 import javax.inject.Inject
@@ -27,6 +25,7 @@ class GalleryActivity :
     BaseActivity<GalleryViewModel, ActivityGalleryBinding>(R.layout.activity_gallery),
     GalleryNavigator {
 
+    private var galleryMode: Int = GalleryMode.GALLERY_IMAGE_AND_VIDEOS
     override val viewModel: GalleryViewModel by viewModels()
 
     @Inject
@@ -49,6 +48,11 @@ class GalleryActivity :
         super.onCreate(savedInstanceState)
         viewModel.setNavigator(this)
 
+        intent?.takeIf { it.hasExtra(CommonTags.galleryMode) }?.let {
+            galleryMode =
+                it.getIntExtra(CommonTags.galleryMode, GalleryMode.GALLERY_IMAGE_AND_VIDEOS)
+        }
+
         if (hasStoragePermission()) {
             requestGalleryData()
         } else {
@@ -62,7 +66,7 @@ class GalleryActivity :
     fun requestGalleryData() {
 
         viewModel.initLists()
-        viewModel.loadGalleryMedia(GalleryHelper.GALLERY_IMAGE_AND_VIDEOS)
+        viewModel.loadGalleryMedia(galleryMode)
         setGalleryFoldersAdapter()
         setGalleryMediaAdapter()
         addGalleryFoldersLiveDataObservers()

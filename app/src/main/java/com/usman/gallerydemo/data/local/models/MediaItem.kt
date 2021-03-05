@@ -7,9 +7,7 @@ data class MediaItem(
     var path: String,
     var width: Int,
     var height: Int,
-    var size: Long,
-    var orientation: Int? = null
-) {
+    var size: Long) {
     var isVideo by Delegates.notNull<Boolean>()
     var mimeType: String? = null
         set(value) {

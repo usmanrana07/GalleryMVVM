@@ -10,4 +10,7 @@
     <string name="gallery_permission">Gallery Permission</string>
     <string name="message_allow_gallery_permission">This lets you share photos from your library and save photos to your Camera Roll.</string>
     <string name="allow">Allow</string>
+    <string name="images_only">Images Only</string>
+    <string name="videos_only">Videos Only</string>
+    <string name="both">Both</string>
 </resources>
